@@ -17,6 +17,7 @@ a {
 
 .header {
   text-transform: uppercase;
+  font-size: 1.6rem;
 }
 
 .outer-container {
@@ -34,16 +35,25 @@ a {
   grid-template-columns: repeat(3, auto);
   grid-template-rows: repeat(3, auto);
   border: 1px solid black;
+  background-color: white;
 }
 
 .grid-container div {
   border: 1px solid black;
 }
 
-.cross-tile {
-  background-color: red;
+.cross-theme {
+  background-color: #f58989;
 }
 
-.circle-tile {
-  background-color: blue;
+.cross-text {
+  color: #f58989;
+}
+
+.circle-theme {
+  background-color: #a0b9f2;
+}
+
+.circle-text {
+  color: #a0b9f2;
 }

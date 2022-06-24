@@ -24,6 +24,8 @@ export default function Board() {
     "Player 1"
   );
 
+  const [winnerTheme, setWinnerTheme] = useState("");
+
   const players: Player = { "Player 1": "cross", "Player 2": "circle" };
 
   const winningTrio: Position[][] = [
@@ -65,14 +67,20 @@ export default function Board() {
 
       if (hasWinningTrio(newBoard)) {
         setBoard(newBoard);
-        confirm(`${currentPlayer} wins! Play again?`);
-        setBoard(initialBoard);
-        setCurrentPlayer("Player 1");
+        setWinnerTheme(currentPlayer);
+        setTimeout(() => {
+          confirm(`${currentPlayer} wins! Play again?`);
+          setBoard(initialBoard);
+          setWinnerTheme("");
+          setCurrentPlayer("Player 1");
+        }, 100);
       } else if (!Object.entries(newBoard).flat(1).includes("empty")) {
         setBoard(newBoard);
-        confirm("It's a tie! Play again?");
-        setBoard(initialBoard);
-        setCurrentPlayer("Player 1");
+        setTimeout(() => {
+          confirm("It's a tie! Play again?");
+          setBoard(initialBoard);
+          setCurrentPlayer("Player 1");
+        }, 100);
       } else {
         setBoard(newBoard);
         setCurrentPlayer(
@@ -85,25 +93,49 @@ export default function Board() {
   console.log(board);
 
   return (
-    <div className="outer-container">
-      <div className="header">It&apos;s your turn, {currentPlayer}!</div>
-      <div className="grid-container">
-        {Object.entries(board).map(([pos, symbol]) => {
-          const position = pos as Position;
-          return (
-            <div
-              key={position}
-              className={
-                symbol === "cross"
-                  ? "cross-tile"
-                  : symbol === "circle"
-                  ? "circle-tile"
-                  : ""
-              }
-              onClick={() => playerMove({ position, currentPlayer, symbol })}
-            ></div>
-          );
-        })}
+    <div
+      className={
+        winnerTheme === "Player 1"
+          ? "cross-theme"
+          : winnerTheme === "Player 2"
+          ? "circle-theme"
+          : ""
+      }
+    >
+      <div className="outer-container">
+        <div className="header">
+          It&apos;s your turn,{" "}
+          <span
+            className={
+              currentPlayer === "Player 1"
+                ? "cross-text"
+                : currentPlayer === "Player 2"
+                ? "circle-text"
+                : ""
+            }
+          >
+            {currentPlayer}
+          </span>
+          !
+        </div>
+        <div className="grid-container">
+          {Object.entries(board).map(([pos, symbol]) => {
+            const position = pos as Position;
+            return (
+              <div
+                key={position}
+                className={
+                  symbol === "cross"
+                    ? "cross-theme"
+                    : symbol === "circle"
+                    ? "circle-theme"
+                    : ""
+                }
+                onClick={() => playerMove({ position, currentPlayer, symbol })}
+              ></div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
